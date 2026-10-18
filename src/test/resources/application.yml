@@ -1,7 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:h2:mem:bookshelf;DB_CLOSE_DELAY=-1
-    username: sa
-    password: password
-  liquibase:
-    drop-first: false

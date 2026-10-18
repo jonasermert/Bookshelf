@@ -11,7 +11,7 @@ server:
 
 spring:
   datasource:
-    url: ${DB_URL:jdbc:h2:file:./data/bookshelf;DB_CLOSE_ON_EXIT=FALSE}
+    url: ${DB_URL:jdbc:h2:file:./testdb;DB_CLOSE_ON_EXIT=FALSE}
     driver-class-name: org.h2.Driver
     username: sa
     password: ${DB_PASSWORD:password}
