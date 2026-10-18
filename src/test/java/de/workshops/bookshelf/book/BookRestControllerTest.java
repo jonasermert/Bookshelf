@@ -1,6 +1,6 @@
 package de.workshops.bookshelf.book;
 
-import de.workshops.bookshelf.book.controller.BookRestController;
+import de.workshops.bookshelf.controller.BookRestController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
