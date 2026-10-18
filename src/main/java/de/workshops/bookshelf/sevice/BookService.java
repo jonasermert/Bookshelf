@@ -24,28 +24,28 @@ public class BookService {
         return books;
     }
 
-    Book getSingleBook(String isbn) throws BookException {
+    public Book getSingleBook(String isbn) throws BookException {
         return getBooks().stream().filter(book -> hasIsbn(book, isbn)).findFirst().orElseThrow(BookException::new);
     }
 
-    Book searchBookByAuthor(String author) throws BookException {
+    public Book searchBookByAuthor(String author) throws BookException {
         return getBooks().stream().filter(book -> hasAuthor(book, author)).findFirst().orElseThrow(BookException::new);
     }
 
-    List<Book> searchBooks(BookSearchRequest request) {
+    public List<Book> searchBooks(BookSearchRequest request) {
         return getBooks().stream()
                 .filter(book -> hasAuthor(book, request.getAuthor()))
                 .filter(book -> hasIsbn(book, request.getIsbn()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    Book createBook(Book book) {
+    public Book createBook(Book book) {
         bookRepository.save(book);
 
         return book;
     }
 
-    void deleteBook(Book book) {
+    public void deleteBook(Book book) {
         bookRepository.delete(book);
     }
 

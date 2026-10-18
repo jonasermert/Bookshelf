@@ -5,29 +5,26 @@ import de.workshops.bookshelf.entity.BookSearchRequest;
 import de.workshops.bookshelf.exception.BookException;
 import de.workshops.bookshelf.sevice.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping(BookRestController.REQUEST_URL)
 @RequiredArgsConstructor
+@Transactional
 public class BookRestController {
-
-    static final String REQUEST_URL = "/book";
-
+    public static final String REQUEST_URL = "/book";
     private final BookService bookService;
 
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
-        List<Book> result = bookService.getBooks();
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
+        List<Book> books = bookService.getBooks();
+        return books == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(books);
     }
 
     @GetMapping("/{isbn}")
@@ -46,20 +43,49 @@ public class BookRestController {
     }
 
     @PostMapping
-    public Book createBook(@RequestBody Book book) {
-        return bookService.createBook(book);
+    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
+        if (bookService.getBooks().stream().anyMatch(existing -> existing.getIsbn().equals(book.getIsbn().strip()))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Diese ISBN ist bereits vorhanden.");
+        }
+        // Der Client darf beim Anlegen keine bestehende ID überschreiben.
+        book.setId(null);
+        normalize(book);
+        Book created = bookService.createBook(book);
+        return ResponseEntity.created(URI.create("/book/" + created.getIsbn().replace(" ", "%20"))).body(created);
+    }
+
+    @PutMapping("/{isbn}")
+    public Book updateBook(@PathVariable String isbn, @Valid @RequestBody Book input) throws BookException {
+        Book existing = bookService.getSingleBook(isbn);
+        String newIsbn = input.getIsbn().strip();
+        if (bookService.getBooks().stream().anyMatch(book ->
+                !book.getId().equals(existing.getId()) && book.getIsbn().equals(newIsbn))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Diese ISBN ist bereits vorhanden.");
+        }
+        existing.setTitle(input.getTitle());
+        existing.setAuthor(input.getAuthor());
+        existing.setDescription(input.getDescription());
+        existing.setIsbn(newIsbn);
+        normalize(existing);
+        return bookService.createBook(existing);
     }
 
     @DeleteMapping("/{isbn}")
-    public ResponseEntity<String> deleteBook(@PathVariable String isbn) throws BookException {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBook(@PathVariable String isbn) throws BookException {
         bookService.deleteBook(bookService.getSingleBook(isbn));
+    }
 
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+    private void normalize(Book book) {
+        book.setTitle(book.getTitle().strip());
+        book.setAuthor(book.getAuthor().strip());
+        book.setIsbn(book.getIsbn().strip());
+        book.setDescription(book.getDescription() == null ? "" : book.getDescription().strip());
     }
 
     @ExceptionHandler(BookException.class)
-    public ResponseEntity<String> error(BookException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public java.util.Map<String, String> missing() {
+        return java.util.Map.of("message", "Das Buch wurde nicht gefunden.");
     }
-
 }
