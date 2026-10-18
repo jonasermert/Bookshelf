@@ -1,6 +1,5 @@
 package de.workshops.bookshelf.book;
 
-import de.workshops.bookshelf.book.repository.BookRepository;
 import de.workshops.bookshelf.entity.Book;
 import de.workshops.bookshelf.repository.BookRepository;
 import org.junit.jupiter.api.Test;

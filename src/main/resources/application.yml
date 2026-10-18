@@ -11,10 +11,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:./testdb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
+    url: ${DB_URL:jdbc:h2:file:./testdb;DB_CLOSE_ON_EXIT=FALSE}
     driver-class-name: org.h2.Driver
     username: sa
-    password: password
+    password: ${DB_PASSWORD:password}
   sql:
     init:
       mode: always
@@ -25,6 +25,6 @@ spring:
       ddl-auto: validate
   h2:
     console:
-      enabled: true
+      enabled: false
   liquibase:
-    drop-first: true
+    drop-first: false

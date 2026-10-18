@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@theme { --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
+:root { font-family: var(--font-sans); color-scheme: light; }
+body { margin: 0; min-width: 320px; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: wait; opacity: .5; }
+:focus-visible { outline: 2px solid #245e4b; outline-offset: 4px; }
+::selection { background: #b9d8c8; color: #13392d; }
+@layer components {
+  .button-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-800; }
+  .button-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-5 py-3 text-sm text-stone-600 hover:bg-stone-50; }
+  .button-danger { @apply inline-flex items-center justify-center rounded-xl bg-red-700 px-5 py-3 text-sm font-semibold text-white hover:bg-red-800; }
+  .icon-button { @apply flex h-9 w-9 items-center justify-center rounded-lg text-stone-400 hover:bg-stone-100; }
+  .input { @apply block w-full rounded-xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-emerald-700; }
+  .label { @apply mb-2 block text-sm font-medium text-stone-600; }
+  .field-error { @apply mt-2 text-sm text-red-700; }
+  .alert { @apply rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800; }
+  .empty-state { @apply rounded-2xl border border-dashed border-stone-300 bg-white/50 px-6 py-16 text-center text-sm leading-7 text-stone-500; }
+  .eyebrow { @apply text-[10px] font-semibold tracking-[0.23em] text-emerald-800; }
+  .skip-link { @apply sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-emerald-900 focus:p-3 focus:text-white; }
+}
+.book-cover::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg,#0002 0%,transparent 3%,#fff2 4%,transparent 5%,transparent 96%,#0001 100%); border-left: 10px solid #0001; }
+.modal { position: fixed; inset: 0; margin: auto; width: min(560px,calc(100% - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto; border: 1px solid #e7e5e4; border-radius: 20px; padding: 28px; background: #fafaf9; color: #292524; box-shadow: 0 24px 100px #0003; }
+.modal::backdrop { background: #17251e88; backdrop-filter: blur(5px); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

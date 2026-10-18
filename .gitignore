@@ -61,3 +61,12 @@ build/
 
 ### H2 database files ###
 *.db
+
+# React und lokale Daten
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+data/
