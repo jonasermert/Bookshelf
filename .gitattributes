@@ -1,0 +1,76 @@
+
+# Standardmäßig Textdateien automatisch erkennen
+* text=auto
+
+# Java und Spring Boot
+*.java       text eol=lf
+*.properties text eol=lf
+*.yml        text eol=lf
+*.yaml       text eol=lf
+*.xml        text eol=lf
+*.sql        text eol=lf
+
+# Weitere Konfigurationsdateien
+*.json       text eol=lf
+*.toml       text eol=lf
+*.md         text eol=lf
+*.txt        text eol=lf
+*.html       text eol=lf
+*.css        text eol=lf
+*.js         text eol=lf
+*.ts         text eol=lf
+*.gitignore  text eol=lf
+*.editorconfig text eol=lf
+
+# Maven Wrapper
+mvnw         text eol=lf
+mvnw.cmd     text eol=crlf
+
+# Gradle Wrapper
+gradlew      text eol=lf
+gradlew.bat  text eol=crlf
+*.gradle     text eol=lf
+*.gradle.kts text eol=lf
+
+# Shell-Skripte
+*.sh         text eol=lf
+*.bash       text eol=lf
+*.bat        text eol=crlf
+*.cmd        text eol=crlf
+*.ps1        text eol=crlf
+
+# Docker
+Dockerfile   text eol=lf
+*.dockerfile text eol=lf
+.dockerignore text eol=lf
+
+# Binärdateien
+*.jar        binary
+*.war        binary
+*.ear        binary
+*.class      binary
+*.zip        binary
+*.tar        binary
+*.gz         binary
+*.7z         binary
+*.pdf        binary
+
+# Bilder
+*.png        binary
+*.jpg        binary
+*.jpeg       binary
+*.gif        binary
+*.ico        binary
+*.webp       binary
+
+# Schriftarten
+*.woff       binary
+*.woff2      binary
+*.ttf        binary
+*.otf        binary
+
+# Zertifikate und Keystores
+*.jks        binary
+*.p12        binary
+*.pfx        binary
+*.keystore   binary
